@@ -3,7 +3,7 @@ package mate.academy.hw01;
 import javax.lang.model.element.PackageElement;
 import java.util.Objects;
 
-public class PersonalComputer implements Cloneable{
+public class PersonalComputer implements Cloneable {
     private String type;
     private String CPU, GPU;
     private int RAM;

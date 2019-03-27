@@ -4,12 +4,12 @@ package mate.academy.hw02.Classes;
 public abstract class Building {
 
     private String name;
-    private String adress;
+    private String address;
     private String type;
 
-    public Building(String name, String adress) {
+    public Building(String name, String address) {
         this.name = name;
-        this.adress = adress;
+        this.address = address;
     }
 
     public String getName() {
@@ -20,12 +20,12 @@ public abstract class Building {
         this.name = name;
     }
 
-    public String getAdress() {
-        return adress;
+    public String getAddress() {
+        return address;
     }
 
-    public void setAdress(String adress) {
-        this.adress = adress;
+    public void setAddress(String adress) {
+        this.address = adress;
     }
 
     public String getType() {
@@ -41,12 +41,38 @@ public abstract class Building {
             super(name, adress);
             this.setType("House");
         }
+
+        @Override
+        public String toString() {
+            return "House{" +
+                    "name='" + getName() + '\'' +
+                    ", address='" + getAddress() + '\'' +
+                    ", type='" + getType() + '\'' +
+                    '}';
+        }
     }
 
     public static class Office extends Building {
-        public Office(String name, String adress) {
-            super(name, adress);
+        public Office(String name, String address) {
+            super(name, address);
             this.setType("Office");
         }
+
+        @Override
+        public String toString() {
+            return "Office{" +
+                    "name='" + getName() + '\'' +
+                    ", address='" + getAddress() + '\'' +
+                    ", type='" + getType() + '\'' +
+                    '}';
+        }
+    }
+
+    public static void main(String[] args) {
+        Building.Office myOffice = new Building.Office("Strog Corp", "Pacichna, 143");
+        System.out.println(myOffice);
+
+        Building.House myHouse = new Building.House("My home", "Honey Cave, 65");
+        System.out.println(myHouse);
     }
 }

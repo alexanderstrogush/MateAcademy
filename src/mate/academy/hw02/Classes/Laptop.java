@@ -45,7 +45,7 @@ public class Laptop {
                 '}';
     }
 
-    static class Processor {
+    public static class Processor {
 
         private String name;
         private int cores;
@@ -92,6 +92,9 @@ public class Laptop {
     }
 
     public static void main(String[] args) {
+        Processor processor = new Processor("I7-8700", 6, 18);
+        Laptop myLaptop = new Laptop("Asus", "ROG", processor);
+
         Laptop laptop = new Laptop("Asus", "K53", new Processor("I9-9900K", 8, 32));
         System.out.println(laptop);
     }

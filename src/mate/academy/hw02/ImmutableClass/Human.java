@@ -2,12 +2,14 @@ package mate.academy.hw02.ImmutableClass;
 
 // Immutable class
 public final class Human {
-    final private String name, bith;
+
+    final private String name;
+    final private String birthday;
     final private int passport;
 
-    public Human(String name, String birth, int passport) {
+    public Human(String name, String birthday, int passport) {
         this.name = name;
-        this.bith = birth;
+        this.birthday = birthday;
         this.passport = passport;
     }
 
@@ -15,8 +17,8 @@ public final class Human {
         return name;
     }
 
-    public String getBith() {
-        return bith;
+    public String getBirthday() {
+        return birthday;
     }
 
     public int getPassport() {
@@ -26,7 +28,7 @@ public final class Human {
     @Override
     public String toString() {
         return name + "{" +
-                ", bith='" + bith + '\'' +
+                ", birthday='" + birthday + '\'' +
                 ", passport=" + passport +
                 '}';
     }

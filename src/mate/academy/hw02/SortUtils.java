@@ -9,69 +9,71 @@ import static java.lang.System.arraycopy;
 public class SortUtils {
     public static void main(String[] args) {
         System.out.println("Merge Sort");
-        int[] array1 = createArray(20);
-        printArray(array1);
-        array1 = mergeSort(array1);
+        int[] arrayForMergeSort = createArray(20);
+        printArray(arrayForMergeSort);
+        arrayForMergeSort = mergeSort(arrayForMergeSort, 0, arrayForMergeSort.length);
         System.out.println("Sorted array:");
-        printArray(array1);
+        printArray(arrayForMergeSort);
 
         System.out.println();
 
         System.out.println("Bubble Sort");
-        int[] array2 = createArray(20);
-        printArray(array2);
-        array2 = bubbleSort(array2);
+        int[] arrayForBubbleSort = createArray(20);
+        printArray(arrayForBubbleSort);
+        arrayForBubbleSort = bubbleSort(arrayForBubbleSort);
         System.out.println("Sorted array:");
-        printArray(array2);
+        printArray(arrayForBubbleSort);
+
     }
 
-    private static int[] merge(int[] array1, int[] array2) {
-        int[] result = new int[array1.length + array2.length];
-        int i = 0;
-        int j = 0;
-        int k = 0;
-        while ((i < array1.length) && (j < array2.length)) {
-            result[k++] = (array1[i] <= array2[j]) ? array1[i++] : array2[j++];
+    private static int[] merge(int[] firstArray, int[] secondArray) {
+        int[] result = new int[firstArray.length + secondArray.length];
+        int curentPosFirstArray = 0;
+        int curentPosSecondArray = 0;
+        int curentPosResultArray = 0;
+        while ((curentPosFirstArray < firstArray.length) && (curentPosSecondArray < secondArray.length)) {
+            result[curentPosResultArray++] = (firstArray[curentPosFirstArray] <= secondArray[curentPosSecondArray])
+                    ? firstArray[curentPosFirstArray++]
+                    : secondArray[curentPosSecondArray++];
         }
-        if (i < array1.length) {
-            arraycopy(array1, i, result, k, array1.length - i);
-        } else if (j < array2.length) {
-            arraycopy(array2, j, result, k, array2.length - j);
+        if (curentPosFirstArray < firstArray.length) {
+            arraycopy(firstArray, curentPosFirstArray, result, curentPosResultArray, firstArray.length - curentPosFirstArray);
+        } else if (curentPosSecondArray < secondArray.length) {
+            arraycopy(secondArray, curentPosSecondArray, result, curentPosResultArray, secondArray.length - curentPosSecondArray);
         }
         return result;
     }
 
-    private static int[] recMerrgeSort(int[] array, int lower, int upper) {
+    private static int[] mergeSort(int[] array, int lower, int upper) {
         int[] result;
         if (lower >= upper - 1) {
             return array;
         } else {
             int middle = (lower + upper) / 2;
-            int[] buffer1 = Arrays.copyOfRange(array, 0, middle);
-            int[] buffer2 = Arrays.copyOfRange(array, middle, upper);
-            int[] sorted1 = recMerrgeSort(buffer1, 0, buffer1.length);
-            int[] sorted2 = recMerrgeSort(buffer2, 0, buffer2.length);
-            result = merge(sorted1, sorted2);
+            int[] leftArraysPart = Arrays.copyOfRange(array, 0, middle);
+            int[] rightArraysPart = Arrays.copyOfRange(array, middle, upper);
+            int[] sortedLeftPart = mergeSort(leftArraysPart, 0, leftArraysPart.length);
+            int[] sortedRightPart = mergeSort(rightArraysPart, 0, rightArraysPart.length);
+            result = merge(sortedLeftPart, sortedRightPart);
         }
         return result;
-    }
-
-    private static int[] mergeSort(int[] array) {
-        array = recMerrgeSort(array, 0, array.length);
-        return array;
     }
 
     private static int[] bubbleSort(int[] array) {
         for (int i = 0; i < array.length; i++) {
             for (int j = 0; j < array.length - i - 1; j++) {
                 if (array[j] > array[j + 1]) {
-                    int gar = array[j];
-                    array[j] = array[j + 1];
-                    array[j + 1] = gar;
+                    swap(array, j, j + 1);
                 }
             }
         }
         return array;
+    }
+
+    private static void swap(int[] array, int firstPos, int secondPos) {
+        int temp = array[firstPos];
+        array[firstPos] = array[secondPos];
+        array[secondPos] = temp;
     }
 
     public static int[] createArray(int length) {

@@ -1,4 +1,4 @@
-package mate.academy.hw02;
+package mate.academy.hw02.SortUtils;
 
 import java.util.Arrays;
 import java.util.Random;
@@ -7,24 +7,6 @@ import static java.lang.System.arraycopy;
 
 // Sorting
 public class SortUtils {
-    public static void main(String[] args) {
-        System.out.println("Merge Sort");
-        int[] arrayForMergeSort = createArray(20);
-        printArray(arrayForMergeSort);
-        arrayForMergeSort = mergeSort(arrayForMergeSort, 0, arrayForMergeSort.length);
-        System.out.println("Sorted array:");
-        printArray(arrayForMergeSort);
-
-        System.out.println();
-
-        System.out.println("Bubble Sort");
-        int[] arrayForBubbleSort = createArray(20);
-        printArray(arrayForBubbleSort);
-        arrayForBubbleSort = bubbleSort(arrayForBubbleSort);
-        System.out.println("Sorted array:");
-        printArray(arrayForBubbleSort);
-
-    }
 
     private static int[] merge(int[] firstArray, int[] secondArray) {
         int[] result = new int[firstArray.length + secondArray.length];
@@ -44,7 +26,7 @@ public class SortUtils {
         return result;
     }
 
-    private static int[] mergeSort(int[] array, int lower, int upper) {
+    public static int[] mergeSort(int[] array, int lower, int upper) {
         int[] result;
         if (lower >= upper - 1) {
             return array;
@@ -59,7 +41,7 @@ public class SortUtils {
         return result;
     }
 
-    private static int[] bubbleSort(int[] array) {
+    public static int[] bubbleSort(int[] array) {
         for (int i = 0; i < array.length; i++) {
             for (int j = 0; j < array.length - i - 1; j++) {
                 if (array[j] > array[j + 1]) {
@@ -81,7 +63,7 @@ public class SortUtils {
         if (length > 0) {
             Random random = new Random();
             for (int i = 0; i < length; i++) {
-                array[i] = random.nextInt(10);
+                array[i] = random.nextInt(100);
             }
         }
         return array;

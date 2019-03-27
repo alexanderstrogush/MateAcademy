@@ -51,7 +51,6 @@ public class Laptop {
         private int cores;
         private int threads;
 
-
         public Processor(String name, int cores, int threads) {
             this.name = name;
             this.cores = cores;
@@ -92,7 +91,7 @@ public class Laptop {
     }
 
     public static void main(String[] args) {
-        Processor processor = new Processor("I7-8700", 6, 18);
+        Laptop.Processor processor = new Laptop.Processor("I7-8700", 6, 18);
         Laptop myLaptop = new Laptop("Asus", "ROG", processor);
 
         Laptop laptop = new Laptop("Asus", "K53", new Processor("I9-9900K", 8, 32));

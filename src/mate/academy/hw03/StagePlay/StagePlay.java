@@ -22,7 +22,6 @@ public class StagePlay {
                         .append(")")
                         .append(textLines[i].substring(role.length() + 1))
                         .append("\n");
-
             }
         }
         return replic;

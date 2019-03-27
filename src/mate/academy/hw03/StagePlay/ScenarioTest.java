@@ -2,10 +2,11 @@ package mate.academy.hw03.StagePlay;
 
 import static mate.academy.hw03.StagePlay.StagePlay.printTextPerRole;
 
-public class Test {
+public class ScenarioTest {
     public static void main(String[] args) {
         String[] roles = {
-                "Городничий", "Аммос Федорович",
+                "Городничий",
+                "Аммос Федорович",
                 "Артемий Филиппович",
                 "Лука Лукич"};
         String[] textLines = {

@@ -2,8 +2,6 @@ package mate.academy.hw03.MergeArrays;
 
 import java.util.Random;
 
-import static java.lang.System.arraycopy;
-
 public class MergeArrays {
 
     public static int[] mergeArrays(int[] firstArray, int[] secondArray) {
@@ -17,9 +15,9 @@ public class MergeArrays {
                     : secondArray[curentPosSecondArray++];
         }
         if (curentPosFirstArray < firstArray.length) {
-            arraycopy(firstArray, curentPosFirstArray, result, curentPosResultArray, firstArray.length - curentPosFirstArray);
+            System.arraycopy(firstArray, curentPosFirstArray, result, curentPosResultArray, firstArray.length - curentPosFirstArray);
         } else if (curentPosSecondArray < secondArray.length) {
-            arraycopy(secondArray, curentPosSecondArray, result, curentPosResultArray, secondArray.length - curentPosSecondArray);
+            System.arraycopy(secondArray, curentPosSecondArray, result, curentPosResultArray, secondArray.length - curentPosSecondArray);
         }
         return result;
     }

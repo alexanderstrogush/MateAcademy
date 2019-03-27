@@ -1,7 +1,5 @@
 package mate.academy.hw03.StagePlay;
 
-import static mate.academy.hw03.StagePlay.StagePlay.printTextPerRole;
-
 public class ScenarioTest {
     public static void main(String[] args) {
         String[] roles = {
@@ -17,7 +15,7 @@ public class ScenarioTest {
                 "Аммос Федорович: Вот те на!",
                 "Артемий Филиппович: Вот не было заботы, так подай!",
                 "Лука Лукич: Господи боже! еще и с секретным предписаньем!"};
-        StringBuilder result = printTextPerRole(roles, textLines);
+        StringBuilder result = StagePlay.printTextPerRole(roles, textLines);
         System.out.println(result);
     }
 }

@@ -2,23 +2,21 @@ package mate.academy.hw04.MyCollection;
 
 public class MyArrayList<T> implements List<T> {
 
-    private Object[] array;
-    private int lenght;
+    private T[] array;
+    private final int DEFAULT_LENGTH = 15;
     private int size = 0;
 
     public MyArrayList() {
-        lenght = 15;
-        array = new Object[lenght];
+        array = (T[]) new Object[DEFAULT_LENGTH];
     }
 
     public MyArrayList(int length) {
-        this.lenght = length;
-        array = new Object[length];
+        array = (T[]) new Object[length];
     }
 
     @Override
     public void add(T value) {
-        if (size < lenght) {
+        if (size < array.length) {
         } else {
             createLargerArray();
         }
@@ -27,7 +25,8 @@ public class MyArrayList<T> implements List<T> {
 
     @Override
     public void add(T value, int index) {
-        if (size >= lenght) {
+        checkIndex(index);
+        if (size >= array.length) {
             createLargerArray();
         }
         Object[] firstBuffer = new Object[size - index];
@@ -39,17 +38,20 @@ public class MyArrayList<T> implements List<T> {
 
     @Override
     public T get(int index) {
-        return (T) array[index];
+        checkIndex(index);
+        return array[index];
     }
 
     @Override
     public void set(int index, T value) {
+        checkIndex(index);
         array[index] = value;
     }
 
     @Override
     public T remove(int index) {
-        T removedElement = (T) array[index];
+        checkIndex(index);
+        T removedElement = array[index];
         copyArray(array, index + 1, size - index, array, index);
         size--;
         return removedElement;
@@ -57,16 +59,11 @@ public class MyArrayList<T> implements List<T> {
 
     @Override
     public void remove(T value) {
-        boolean removed = false;
         for (int i = 0; i < size; i++) {
             if (value.equals(array[i])) {
                 remove(i);
-                removed = true;
                 break;
             }
-        }
-        if (!removed) {
-            System.out.println("There is no " + value.toString());
         }
     }
 
@@ -81,11 +78,10 @@ public class MyArrayList<T> implements List<T> {
     }
 
     private void createLargerArray() {
-        int newLength = this.lenght * 2 + 1;
-        Object[] buffer = new Object[newLength];
+        int newLength = array.length * 2 + 1;
+        T[] buffer = (T[]) new Object[newLength];
         copyArray(array, 0, size, buffer, 0);
         array = buffer;
-        this.lenght = newLength;
     }
 
     private static void copyArray(Object[] startArray, int startIndex, int length, Object[] finalArray, int index) {
@@ -97,9 +93,16 @@ public class MyArrayList<T> implements List<T> {
     @Override
     public String toString() {
         StringBuilder result = new StringBuilder();
+        result.append(array[0].toString());
         for (int i = 0; i < size; i++) {
-            result.append((T) array[i].toString()).append(", ");
+            result.append(", ").append((T) array[i].toString());
         }
         return result.toString();
+    }
+
+    private void checkIndex(int index) {
+        if (index < 0 || index >= array.length) {
+            throw new IndexOutOfBoundsException("You went beyond the index");
+        }
     }
 }

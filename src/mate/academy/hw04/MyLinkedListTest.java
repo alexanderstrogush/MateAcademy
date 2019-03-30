@@ -1,10 +1,11 @@
 package mate.academy.hw04;
 
+import mate.academy.hw04.MyCollection.List;
 import mate.academy.hw04.MyCollection.MyLinkedList;
 
 public class MyLinkedListTest {
     public static void main(String[] args) {
-        MyLinkedList<String> myLinkedList1 = new MyLinkedList<>();
+        List<String> myLinkedList1 = new MyLinkedList<>();
 
         myLinkedList1.add("Hello");
         myLinkedList1.add("I");
@@ -16,7 +17,7 @@ public class MyLinkedListTest {
         myLinkedList1.add("everybody", 1);
         System.out.println(myLinkedList1); // Hello, everybody, I, am, Alex
 
-        MyLinkedList<String> myLinkedList2 = new MyLinkedList<>();
+        List<String> myLinkedList2 = new MyLinkedList<>();
         myLinkedList2.add("I");
         myLinkedList2.add("finish");
 

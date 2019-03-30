@@ -1,11 +1,12 @@
 package mate.academy.hw04;
 
+import mate.academy.hw04.MyCollection.List;
 import mate.academy.hw04.MyCollection.MyArrayList;
 import mate.academy.hw04.MyCollection.MyLinkedList;
 
 public class MyArrayListTest {
     public static void main(String[] args) {
-        MyArrayList<String> myArrayList1 = new MyArrayList<>();
+        List<String> myArrayList1 = new MyArrayList<>();
 
         myArrayList1.add("Hello");
         myArrayList1.add("I");
@@ -17,7 +18,7 @@ public class MyArrayListTest {
         myArrayList1.add("everybody", 1);
         System.out.println(myArrayList1); // Hello, everybody, I, am, Alex
 
-        MyLinkedList<String> myArrayList2 = new MyLinkedList<>();
+        List<String> myArrayList2 = new MyLinkedList<>();
         myArrayList2.add("I");
         myArrayList2.add("finish");
 
@@ -33,8 +34,8 @@ public class MyArrayListTest {
         myArrayList1.remove("I");
         System.out.println(myArrayList1); // everybody, am, Alex, I, end
 
-        System.out.println("MyLinkedList1[4] = " + myArrayList1.get(4)); // MyLinkedList1[4] = end
-        System.out.println("Is MyLinkedList1 empty?: " + myArrayList1.isEmpty()); // Is MyLinkedList1 empty?: false
-        System.out.println("Size of MyLinkedList1 = " + myArrayList1.size()); // Size of MyLinkedList1 = 4
+        System.out.println("MyArrayList1[4] = " + myArrayList1.get(4)); // MyArrayList1[4] = end
+        System.out.println("Is MyArrayList1 empty?: " + myArrayList1.isEmpty()); // Is MyArrayList1 empty?: false
+        System.out.println("Size of MyArrayList1 = " + myArrayList1.size()); // Size of MyArrayList1 = 4
     }
 }

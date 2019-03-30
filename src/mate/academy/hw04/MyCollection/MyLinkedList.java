@@ -29,6 +29,7 @@ public class MyLinkedList<T> implements List<T> {
 
     @Override
     public void add(T value, int index) {
+        checkIndex(index);
         Node<T> bufferNode = getNode(index);
         Node<T> newNode = new Node<>(value, bufferNode.prev, bufferNode);
         bufferNode.prev.next = newNode;
@@ -37,6 +38,7 @@ public class MyLinkedList<T> implements List<T> {
 
     @Override
     public T get(int index) {
+        checkIndex(index);
         Node<T> requiredNode = firstNode;
         for (int i = 0; i < index; i++) {
             requiredNode = requiredNode.next;
@@ -45,6 +47,7 @@ public class MyLinkedList<T> implements List<T> {
     }
 
     public Node<T> getNode(int index) {
+        checkIndex(index);
         Node<T> requiredNode = firstNode;
         for (int i = 0; i < index; i++) {
             requiredNode = requiredNode.next;
@@ -54,6 +57,7 @@ public class MyLinkedList<T> implements List<T> {
 
     @Override
     public void set(int index, T value) {
+        checkIndex(index);
         Node<T> bufferNode = getNode(index);
         bufferNode.value = value;
         bufferNode = null;
@@ -61,6 +65,7 @@ public class MyLinkedList<T> implements List<T> {
 
     @Override
     public T remove(int index) {
+        checkIndex(index);
         Node<T> bufferNode = getNode(index);
         if (index == 0) {
             firstNode = firstNode.next;
@@ -110,10 +115,16 @@ public class MyLinkedList<T> implements List<T> {
         return result.toString();
     }
 
-    class Node<T> {
-        T value;
-        Node prev;
-        Node next;
+    private void checkIndex(int index) {
+        if (index < 0 || index >= size) {
+            throw new IndexOutOfBoundsException("You went beyond the index");
+        }
+    }
+
+    private class Node<T> {
+        private T value;
+        private Node prev;
+        private Node next;
 
         public Node(T value, Node prev, Node next) {
             this.value = value;

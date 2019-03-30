@@ -1,5 +1,7 @@
 package mate.academy.hw04.MyCollection;
 
+import java.util.Arrays;
+
 public class MyArrayList<T> implements List<T> {
 
     private T[] array;
@@ -18,7 +20,7 @@ public class MyArrayList<T> implements List<T> {
     public void add(T value) {
         if (size < array.length) {
         } else {
-            createLargerArray();
+            changeArrayLength(array.length * 2 + 1);
         }
         array[size++] = value;
     }
@@ -27,7 +29,7 @@ public class MyArrayList<T> implements List<T> {
     public void add(T value, int index) {
         checkIndex(index);
         if (size >= array.length) {
-            createLargerArray();
+            changeArrayLength(array.length * 2 + 1);
         }
         Object[] firstBuffer = new Object[size - index];
         copyArray(array, index, size - index, firstBuffer, 0);
@@ -54,6 +56,9 @@ public class MyArrayList<T> implements List<T> {
         T removedElement = array[index];
         copyArray(array, index + 1, size - index, array, index);
         size--;
+        if (size <= array.length / 2) {
+            changeArrayLength(array.length / 2);
+        }
         return removedElement;
     }
 
@@ -65,6 +70,9 @@ public class MyArrayList<T> implements List<T> {
                 break;
             }
         }
+        if (size <= array.length / 2) {
+            changeArrayLength(array.length / 2);
+        }
     }
 
     @Override
@@ -74,14 +82,11 @@ public class MyArrayList<T> implements List<T> {
 
     @Override
     public boolean isEmpty() {
-        return (size == 0) ? true : false;
+        return size == 0;
     }
 
-    private void createLargerArray() {
-        int newLength = array.length * 2 + 1;
-        T[] buffer = (T[]) new Object[newLength];
-        copyArray(array, 0, size, buffer, 0);
-        array = buffer;
+    private void changeArrayLength(int newLength) {
+        array = Arrays.copyOf(array, newLength);
     }
 
     private static void copyArray(Object[] startArray, int startIndex, int length, Object[] finalArray, int index) {
@@ -102,7 +107,7 @@ public class MyArrayList<T> implements List<T> {
 
     private void checkIndex(int index) {
         if (index < 0 || index >= array.length) {
-            throw new IndexOutOfBoundsException("You went beyond the index");
+            throw new IndexOutOfBoundsException("Index: " + index + ", Length: " + array.length);
         }
     }
 }

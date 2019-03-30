@@ -101,7 +101,7 @@ public class MyLinkedList<T> implements List<T> {
 
     @Override
     public boolean isEmpty() {
-        return (size == 0) ? true : false;
+        return size == 0;
     }
 
     @Override
@@ -117,7 +117,7 @@ public class MyLinkedList<T> implements List<T> {
 
     private void checkIndex(int index) {
         if (index < 0 || index >= size) {
-            throw new IndexOutOfBoundsException("You went beyond the index");
+            throw new IndexOutOfBoundsException("Index: " + index + ", Size: " + size);
         }
     }
 

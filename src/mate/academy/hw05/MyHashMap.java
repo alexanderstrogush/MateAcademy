@@ -67,7 +67,6 @@ public class MyHashMap<T, K> {
             }
             for (Box box : list) {
                 if (box.equals(new Box(key))) {
-                    check = true;
                     return true;
                 }
             }

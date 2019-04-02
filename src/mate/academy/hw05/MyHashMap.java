@@ -60,7 +60,6 @@ public class MyHashMap<T, K> {
     }
 
     private boolean checkKey(T key) {
-        boolean check = false;
         for (LinkedList<Box> list : table) {
             if (list == null) {
                 continue;
@@ -71,10 +70,7 @@ public class MyHashMap<T, K> {
                 }
             }
         }
-        if (!check) {
-            throw new NullPointerException("The key does not exist");
-        }
-        return check;
+        throw new NullPointerException("The key does not exist");
     }
 
     public void clear() {

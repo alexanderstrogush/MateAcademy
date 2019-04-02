@@ -61,13 +61,20 @@ public class MyHashMap<T, K> {
 
     private boolean checkKey(T key) {
         boolean check = false;
+        search:
         for (LinkedList<Box> list : table) {
-            if (list.contains(new Box(key))) {
-                check = true;
-                break;
-            } else {
-                throw new NullPointerException("The key does not exist");
+            if (list == null) {
+                continue;
             }
+            for (Box box : list) {
+                if (box.equals(new Box(key))) {
+                    check = true;
+                    break search;
+                }
+            }
+        }
+        if (!check) {
+            throw new NullPointerException("The key does not exist");
         }
         return check;
     }
@@ -90,7 +97,11 @@ public class MyHashMap<T, K> {
             }
             buffer.append(list).append(", ");
         }
-        result = buffer.substring(0, buffer.length() - 2);
+        if (buffer.length() == 0) {
+            result = "( )";
+        } else {
+            result = buffer.substring(0, buffer.length() - 2);
+        }
         return result;
     }
 

@@ -12,6 +12,8 @@ public class MyHashMapTest {
         map.put("Max", 1);
         System.out.println(map);
 
+        System.out.println(map.get("Max"));
+
         System.out.println(map.remove("Max"));
         System.out.println(map);
 
@@ -19,6 +21,5 @@ public class MyHashMapTest {
 
         map.clear();
         System.out.println(map);
-
     }
 }

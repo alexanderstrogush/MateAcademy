@@ -18,7 +18,7 @@ public class MyHashMap<T, K> {
 
     public void put(T key, K value) {
         int hash = key.hashCode();
-        int position = hash % table.length;
+        int position = getPosition(key);
         Box buffer = new Box(hash, key, value);
         if (table[position] == null) {
             table[position] = new LinkedList<>();
@@ -36,6 +36,7 @@ public class MyHashMap<T, K> {
     }
 
     public K get(T key) {
+        checkKey(key);
         int resultIndex;
         resultIndex = table[getPosition(key)]
                 .indexOf(new Box(key));
@@ -48,6 +49,7 @@ public class MyHashMap<T, K> {
     }
 
     public K remove(T key) {
+        checkKey(key);
         K result = get(key);
         table[getPosition(key)].remove(new Box(key));
         if (table[getPosition(key)].isEmpty()) {
@@ -55,6 +57,19 @@ public class MyHashMap<T, K> {
         }
         size--;
         return result;
+    }
+
+    private boolean checkKey(T key) {
+        boolean check = false;
+        for (LinkedList<Box> list : table) {
+            if (list.contains(new Box(key))) {
+                check = true;
+                break;
+            } else {
+                throw new NullPointerException("The key does not exist");
+            }
+        }
+        return check;
     }
 
     public void clear() {

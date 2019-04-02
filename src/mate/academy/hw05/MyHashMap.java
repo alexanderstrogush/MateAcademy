@@ -61,7 +61,6 @@ public class MyHashMap<T, K> {
 
     private boolean checkKey(T key) {
         boolean check = false;
-        search:
         for (LinkedList<Box> list : table) {
             if (list == null) {
                 continue;
@@ -69,7 +68,7 @@ public class MyHashMap<T, K> {
             for (Box box : list) {
                 if (box.equals(new Box(key))) {
                     check = true;
-                    break search;
+                    return true;
                 }
             }
         }

@@ -19,7 +19,7 @@ public class Serialization {
                 new Animal("Cock"),
                 new Animal("Bull"),
                 new Animal("Ant"),
-                new Animal("Tentecles"),
+                new Animal("Tentacles"),
                 new Animal("Worm")};
     }
 

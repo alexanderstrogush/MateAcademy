@@ -6,6 +6,7 @@ import mate.academy.hw07.model.Human;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.NoSuchElementException;
 
 @Component
 public class InMemoryHumanDao implements HumanDao {
@@ -24,7 +25,7 @@ public class InMemoryHumanDao implements HumanDao {
 //            System.out.println(human);
 //        }
         peopleStorage.stream().forEach(System.out::println);
-        return null;
+        throw new NoSuchElementException("База даних пуста");
     }
 
     public Human get(int index) {
@@ -38,6 +39,6 @@ public class InMemoryHumanDao implements HumanDao {
                 return searchedHuman;
             }
         }
-        return null;
+        throw new NoSuchElementException("Вихід за ідекс");
     }
 }

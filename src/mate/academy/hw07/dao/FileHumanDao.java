@@ -8,6 +8,7 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.FileInputStream;
+import java.util.NoSuchElementException;
 
 @Component
 public class FileHumanDao implements HumanDao {
@@ -17,7 +18,7 @@ public class FileHumanDao implements HumanDao {
         try (ObjectOutputStream objectOutputStream = new ObjectOutputStream(new FileOutputStream("storage.dat"))) {
             objectOutputStream.writeObject(human);
         } catch (IOException e) {
-            System.out.println("Не вдалося занести людину в базу даних");
+            throw new NoSuchElementException("Не вдалося занести інформацію в базу даних");
         }
     }
 
@@ -26,8 +27,7 @@ public class FileHumanDao implements HumanDao {
         try (ObjectInputStream inputObjectStream = new ObjectInputStream(new FileInputStream("people.dat"))) {
             return (Human) inputObjectStream.readObject();
         } catch (Exception e) {
-            System.out.println("Людини не знайдено");
-            return null;
+            throw new NoSuchElementException("Інформацію про людину не знайдено");
         }
     }
 

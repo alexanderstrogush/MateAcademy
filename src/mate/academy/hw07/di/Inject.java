@@ -1,4 +1,4 @@
-package hw07.di;
+package mate.academy.hw07.di;
 
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;

@@ -1,7 +1,8 @@
-package hw07.dao;
+package mate.academy.hw07.dao;
 
-import hw07.di.Component;
-import hw07.model.Human;
+
+import mate.academy.hw07.di.Component;
+import mate.academy.hw07.model.Human;
 
 import java.util.ArrayList;
 import java.util.List;

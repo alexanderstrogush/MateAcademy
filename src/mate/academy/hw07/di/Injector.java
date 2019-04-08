@@ -1,10 +1,10 @@
-package hw07.di;
+package mate.academy.hw07.di;
 
-import hw07.dao.FileHumanDao;
-import hw07.dao.HumanDao;
-import hw07.dao.InMemoryHumanDao;
-import hw07.factory.HumanDaoFactory;
-import hw07.handler.ConsoleHandler;
+import mate.academy.hw07.dao.FileHumanDao;
+import mate.academy.hw07.dao.HumanDao;
+import mate.academy.hw07.dao.InMemoryHumanDao;
+import mate.academy.hw07.factory.HumanDaoFactory;
+import mate.academy.hw07.handler.ConsoleHandler;
 
 import java.lang.reflect.Field;
 

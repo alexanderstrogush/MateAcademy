@@ -1,6 +1,6 @@
-package hw07.dao;
+package mate.academy.hw07.dao;
 
-import hw07.model.Human;
+import mate.academy.hw07.model.Human;
 
 public interface HumanDao {
 

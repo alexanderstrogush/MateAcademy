@@ -1,9 +1,13 @@
-package hw07.dao;
+package mate.academy.hw07.dao;
 
-import hw07.di.Component;
-import hw07.model.Human;
+import mate.academy.hw07.di.Component;
+import mate.academy.hw07.model.Human;
 
-import java.io.*;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.io.FileInputStream;
 
 @Component
 public class FileHumanDao implements HumanDao {

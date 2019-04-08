@@ -1,4 +1,4 @@
-package hw07.service;
+package mate.academy.hw07.service;
 
 import java.io.IOException;
 import java.nio.file.Files;

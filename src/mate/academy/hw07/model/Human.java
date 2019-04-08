@@ -1,4 +1,4 @@
-package hw07.model;
+package mate.academy.hw07.model;
 
 import java.io.Serializable;
 

@@ -1,9 +1,9 @@
-package hw07.handler;
+package mate.academy.hw07.handler;
 
-import hw07.dao.HumanDao;
-import hw07.dao.InMemoryHumanDao;
-import hw07.di.Inject;
 import hw07.model.Human;
+import mate.academy.hw07.dao.HumanDao;
+import mate.academy.hw07.dao.InMemoryHumanDao;
+import mate.academy.hw07.di.Inject;
 
 import java.util.Scanner;
 

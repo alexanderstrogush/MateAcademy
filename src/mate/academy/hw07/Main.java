@@ -1,7 +1,7 @@
-package hw07;
+package mate.academy.hw07;
 
-import hw07.di.Injector;
-import hw07.handler.ConsoleHandler;
+import mate.academy.hw07.di.Injector;
+import mate.academy.hw07.handler.ConsoleHandler;
 
 public class Main {
     public static void main(String[] args) throws IllegalAccessException {

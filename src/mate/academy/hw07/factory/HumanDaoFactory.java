@@ -1,11 +1,10 @@
 package mate.academy.hw07.factory;
 
-
-import hw07.service.PropertiesLoader;
 import mate.academy.hw07.dao.FileHumanDao;
 import mate.academy.hw07.dao.HumanDao;
 import mate.academy.hw07.dao.InMemoryHumanDao;
 import mate.academy.hw07.exeption.ComponentNotFoundException;
+import mate.academy.hw07.service.PropertiesLoader;
 
 import java.io.IOException;
 

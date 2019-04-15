@@ -10,7 +10,6 @@ public class AsciiCharSequence implements CharSequence {
         values = Arrays.copyOf(byteArray, byteArray.length);
     }
 
-
     @Override
     public int length() {
         return values.length;

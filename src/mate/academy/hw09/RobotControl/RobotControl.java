@@ -3,7 +3,6 @@ package mate.academy.hw09.RobotControl;
 public class RobotControl {
 
     public static void moveRobot(RobotConnectionManager robotConnectionManager, int toX, int toY) {
-        // your implementation here
         boolean isSuccessfulAttempt = false;
         for (int i = 0; (i < 3) && (!isSuccessfulAttempt); i++) {
             try (RobotConnection robotConnection = robotConnectionManager.getConnection()) {

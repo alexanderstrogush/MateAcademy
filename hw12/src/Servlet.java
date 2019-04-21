@@ -15,40 +15,44 @@ import java.util.regex.Pattern;
 @WebServlet("/start")
 public class Servlet extends HttpServlet {
 
-    private Map<String, User> users = new HashMap<>();
+    private static final Map<String, User> users = new HashMap<>();
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        request.setCharacterEncoding("UTF-8");
+        response.setContentType("text/html");
+        response.setCharacterEncoding("UTF-8");
         PrintWriter out = response.getWriter();
         String type = request.getParameter("type");
-        String username = request.getParameter("username");
-        String password = request.getParameter("password");
-        if (type.equals("Login")) {
-            if (checkUser(username)) {
-                if (checkPassword(users.get(username).getPassword(), password)) {
-                    out.write(getSuccessfulEntrancePage(username));
-                } else {
-                    out.write(getErrorEntrancePage());
-                }
-            } else {
-                out.write(getDontRegistrationPage());
-            }
-        } else if (type.equals("SignUp")) {
-            String firstName = request.getParameter("firstName");
-            String lastName = request.getParameter("lastName");
-            String email = request.getParameter("email");
-            String repeatPass = request.getParameter("repeatPassword");
-
-            if (checkEmail(email)) {
-                if (checkPassword(password, repeatPass)) {
-                    createNewUser(username, firstName, lastName, email, password);
-                    out.write(getSuccessfulRegistrationPage(username));
-                } else {
-                    out.write(getErrorPasswordPage());
-                }
-            } else {
-                out.write(getErrorEmailPage());
-            }
-        }
+        workType(type, request, response);
+//        String username = request.getParameter("username");
+//        String password = request.getParameter("password");
+//        if (type.equals("Login")) {
+//            if (checkUser(username)) {
+//                if (checkPassword(users.get(username).getPassword(), password)) {
+//                    out.write(getSuccessfulEntrancePage(username));
+//                } else {
+//                    out.write(getErrorEntrancePage());
+//                }
+//            } else {
+//                out.write(getDontRegistrationPage());
+//            }
+//        } else if (type.equals("SignUp")) {
+//            String firstName = request.getParameter("firstName");
+//            String lastName = request.getParameter("lastName");
+//            String email = request.getParameter("email");
+//            String repeatPass = request.getParameter("repeatPassword");
+//
+//            if (checkEmail(email)) {
+//                if (checkPassword(password, repeatPass)) {
+//                    createNewUser(username, firstName, lastName, email, password);
+//                    out.write(getSuccessfulRegistrationPage(username));
+//                } else {
+//                    out.write(getErrorPasswordPage());
+//                }
+//            } else {
+//                out.write(getErrorEmailPage());
+//            }
+//        }
     }
 
     @Override
@@ -56,26 +60,71 @@ public class Servlet extends HttpServlet {
         req.getRequestDispatcher("index.html").forward(req, resp);
     }
 
-    private boolean checkUser(String username) {
+    private void workType(String type, HttpServletRequest request, HttpServletResponse response) throws IOException {
+        PrintWriter out = response.getWriter();
+        if (type != null) {
+            if (type.equals("Login")) {
+                logIn(request, out);
+            } else if (type.equals("SignUp")) {
+                signUp(request, out);
+            }
+        }
+    }
+
+    private static void logIn(HttpServletRequest request, PrintWriter out) {
+        String username = request.getParameter("username");
+        String password = request.getParameter("password");
+        if (checkUser(username)) {
+            if (checkPassword(users.get(username).getPassword(), password)) {
+                out.write(getSuccessfulEntrancePage(username));
+            } else {
+                out.write(getErrorEntrancePage());
+            }
+        } else {
+            out.write(getDontRegistrationPage());
+        }
+    }
+
+    private static void signUp(HttpServletRequest request, PrintWriter out) {
+        String username = request.getParameter("username");
+        String password = request.getParameter("password");
+        String firstName = request.getParameter("firstName");
+        String lastName = request.getParameter("lastName");
+        String email = request.getParameter("email");
+        String repeatPass = request.getParameter("repeatPassword");
+
+        if (checkEmail(email)) {
+            if (checkPassword(password, repeatPass)) {
+                createNewUser(username, firstName, lastName, email, password);
+                out.write(getSuccessfulRegistrationPage(username));
+            } else {
+                out.write(getErrorPasswordPage());
+            }
+        } else {
+            out.write(getErrorEmailPage());
+        }
+    }
+
+    private static boolean checkUser(String username) {
         if (users.containsKey(username)) {
             return true;
         }
         return false;
     }
 
-    private void createNewUser(String username, String firstName, String lastName, String email, String password) {
+    private static void createNewUser(String username, String firstName, String lastName, String email, String password) {
         User currentUser = new User(username, firstName, lastName, email, password);
         users.put(username, currentUser);
     }
 
-    private boolean checkPassword(String password, String repeatPassword) {
+    private static boolean checkPassword(String password, String repeatPassword) {
         if (password.equals(repeatPassword)) {
             return true;
         }
         return false;
     }
 
-    private boolean checkEmail(String email) {
+    private static boolean checkEmail(String email) {
         Pattern emailPattern = Pattern.compile("^([a-z0-9_-]+\\.)*[a-z0-9_-]+@[a-z0-9_-]+(\\.[a-z0-9_-]+)*\\.[a-z]{2,6}$");
         Matcher matcher = emailPattern.matcher(email);
         if (matcher.find()) {
@@ -84,7 +133,7 @@ public class Servlet extends HttpServlet {
         return false;
     }
 
-    private String getSuccessfulEntrancePage(String username) {
+    private static String getSuccessfulEntrancePage(String username) {
         return "<!DOCTYPE html>\n" +
                 "<html lang=\"en\">\n" +
                 "<head>\n" +
@@ -97,7 +146,7 @@ public class Servlet extends HttpServlet {
                 "</body>";
     }
 
-    private String getSuccessfulRegistrationPage(String username) {
+    private static String getSuccessfulRegistrationPage(String username) {
         return "<!DOCTYPE html>\n" +
                 "<html lang=\"en\">\n" +
                 "<head>\n" +
@@ -111,7 +160,7 @@ public class Servlet extends HttpServlet {
                 "</html>";
     }
 
-    private String getDontRegistrationPage() {
+    private static String getDontRegistrationPage() {
         return "<!DOCTYPE html>\n" +
                 "<html lang=\"en\">\n" +
                 "<head>\n" +
@@ -124,7 +173,7 @@ public class Servlet extends HttpServlet {
                 "</html>";
     }
 
-    private String getErrorEntrancePage() {
+    private static String getErrorEntrancePage() {
         return "<!DOCTYPE html>\n" +
                 "<html lang=\"en\">\n" +
                 "<head>\n" +
@@ -137,7 +186,7 @@ public class Servlet extends HttpServlet {
                 "</html>";
     }
 
-    private String getErrorEmailPage() {
+    private static String getErrorEmailPage() {
         return "<!DOCTYPE html>\n" +
                 "<html lang=\"en\">\n" +
                 "<head>\n" +
@@ -150,7 +199,7 @@ public class Servlet extends HttpServlet {
                 "</html>";
     }
 
-    private String getErrorPasswordPage() {
+    private static String getErrorPasswordPage() {
         return "<!DOCTYPE html>\n" +
                 "<html lang=\"en\">\n" +
                 "<head>\n" +

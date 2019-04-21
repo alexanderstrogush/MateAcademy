@@ -1,16 +1,18 @@
 package mate.academy.hw04.MyCollection;
 
+import java.util.Objects;
+
 public class MyLinkedList<T> implements List<T> {
 
     private Node<T> firstNode = null;
     private Node<T> lastNode = null;
     private int size = 0;
 
-    public Node<T> getFirstNode() {
+    private Node<T> getFirstNode() {
         return firstNode;
     }
 
-    public Node<T> getLastNode() {
+    private Node<T> getLastNode() {
         return lastNode;
     }
 
@@ -46,7 +48,7 @@ public class MyLinkedList<T> implements List<T> {
         return requiredNode.value;
     }
 
-    public Node<T> getNode(int index) {
+    private Node<T> getNode(int index) {
         checkIndex(index);
         Node<T> requiredNode = firstNode;
         for (int i = 0; i < index; i++) {
@@ -102,6 +104,21 @@ public class MyLinkedList<T> implements List<T> {
     @Override
     public boolean isEmpty() {
         return size == 0;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        MyLinkedList<?> that = (MyLinkedList<?>) o;
+        return size == that.size &&
+                Objects.equals(firstNode, that.firstNode) &&
+                Objects.equals(lastNode, that.lastNode);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(firstNode, lastNode, size);
     }
 
     @Override

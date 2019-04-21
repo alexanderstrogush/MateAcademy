@@ -1,6 +1,7 @@
 package mate.academy.hw04.MyCollection;
 
 import java.util.Arrays;
+import java.util.Objects;
 
 public class MyArrayList<T> implements List<T> {
 
@@ -93,6 +94,22 @@ public class MyArrayList<T> implements List<T> {
         for (int i = startIndex; i < startIndex + length; i++) {
             finalArray[index++] = startArray[i];
         }
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        MyArrayList<?> that = (MyArrayList<?>) o;
+        return size == that.size &&
+                Arrays.equals(array, that.array);
+    }
+
+    @Override
+    public int hashCode() {
+        int result = Objects.hash(DEFAULT_LENGTH, size);
+        result = 31 * result + Arrays.hashCode(array);
+        return result;
     }
 
     @Override

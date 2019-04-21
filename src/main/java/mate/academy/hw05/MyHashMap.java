@@ -75,6 +75,7 @@ public class MyHashMap<T, K> {
 
     public void clear() {
         table = new LinkedList[table.length];
+        size = 0;
     }
 
     public int size() {

@@ -22,92 +22,31 @@ public class Servlet extends HttpServlet {
         String type = request.getParameter("type");
         String username = request.getParameter("username");
         String password = request.getParameter("password");
-        if (type != null) {
-            if (type.equals("Login")) {
-                if (username != null && password != null) {
-                    if (users.containsKey(username)) {
-                        User currentUser = users.get(username);
-                        if (currentUser.getPassword().equals(password)) {
-                            out.write("<!DOCTYPE html>\n" +
-                                    "<html lang=\"en\">\n" +
-                                    "<head>\n" +
-                                    "\t<meta charset=\"UTF-8\">\n" +
-                                    "\t<title>Hi " + username + "</title>\n" +
-                                    "</head>\n" +
-                                    "<body>\n" +
-                                    "\t<script>alert(\"We missed you\")</script>\n" +
-                                    "<h3>The site is at your service, " + username + "</h3>" +
-                                    "</body>");
-                        } else  {
-                            out.write("<!DOCTYPE html>\n" +
-                                    "<html lang=\"en\">\n" +
-                                    "<head>\n" +
-                                    "\t<meta charset=\"UTF-8\">\n" +
-                                    "\t<title>Wrong email or password</title>\n" +
-                                    "</head>\n" +
-                                    "<body>\n" +
-                                    "\t<script>alert(\"Wrong email or password\")</script>\n" +
-                                    "</body>\n" +
-                                    "</html>");
-                        }
-                    } else {
-                        out.write("<!DOCTYPE html>\n" +
-                                "<html lang=\"en\">\n" +
-                                "<head>\n" +
-                                "\t<meta charset=\"UTF-8\">\n" +
-                                "\t<title>This user is not registered</title>\n" +
-                                "</head>\n" +
-                                "<body>\n" +
-                                "\t<script>alert(\"This user is not registered. If you want to use the site, please register\")</script>\n" +
-                                "</body>\n" +
-                                "</html>");
-                    }
-                }
-            } else if (type.equals("SignUp")) {
-                String firstName = request.getParameter("firstName");
-                String lastName = request.getParameter("lastName");
-                String email = request.getParameter("email");
-                String repeatPass = request.getParameter("repeatPassword");
-
-                Pattern emailPattern = Pattern.compile("^([a-z0-9_-]+\\.)*[a-z0-9_-]+@[a-z0-9_-]+(\\.[a-z0-9_-]+)*\\.[a-z]{2,6}$");
-                Matcher matcher = emailPattern.matcher(email);
-                if (!matcher.find()) {
-                    out.write("<!DOCTYPE html>\n" +
-                            "<html lang=\"en\">\n" +
-                            "<head>\n" +
-                            "\t<meta charset=\"UTF-8\">\n" +
-                            "\t<title>Wrong email</title>\n" +
-                            "</head>\n" +
-                            "<body>\n" +
-                            "\t<script>alert(\"You entered wrong email\")</script>\n" +
-                            "</body>\n" +
-                            "</html>");
-                } else if (password.equals(repeatPass)) {
-                    User currentUser = new User(username, firstName, lastName, email, password);
-                    users.put(username, currentUser);
-                    out.write("<!DOCTYPE html>\n" +
-                            "<html lang=\"en\">\n" +
-                            "<head>\n" +
-                            "\t<meta charset=\"UTF-8\">\n" +
-                            "\t<title>Welcome " + username + "</title>\n" +
-                            "</head>\n" +
-                            "<body>\n" +
-                            "\t<script>alert(\"We are glad that you have chosen our site\")</script>\n" +
-                            "<h3>The site is at your service, " + username + "</h3>" +
-                            "</body>\n" +
-                            "</html>");
+        if (type.equals("Login")) {
+            if (checkUser(username)) {
+                if (checkPassword(users.get(username).getPassword(), password)) {
+                    out.write(getSuccessfulEntrancePage(username));
                 } else {
-                    out.write("<!DOCTYPE html>\n" +
-                            "<html lang=\"en\">\n" +
-                            "<head>\n" +
-                            "\t<meta charset=\"UTF-8\">\n" +
-                            "\t<title>Wrong password</title>\n" +
-                            "</head>\n" +
-                            "<body>\n" +
-                            "\t<script>alert(\"Wrong Password\")</script>\n" +
-                            "</body>\n" +
-                            "</html>");
+                    out.write(getErrorEntrancePage());
                 }
+            } else {
+                out.write(getDontRegistrationPage());
+            }
+        } else if (type.equals("SignUp")) {
+            String firstName = request.getParameter("firstName");
+            String lastName = request.getParameter("lastName");
+            String email = request.getParameter("email");
+            String repeatPass = request.getParameter("repeatPassword");
+
+            if (checkEmail(email)) {
+                if (checkPassword(password, repeatPass)) {
+                    createNewUser(username, firstName, lastName, email, password);
+                    out.write(getSuccessfulRegistrationPage(username));
+                } else {
+                    out.write(getErrorPasswordPage());
+                }
+            } else {
+                out.write(getErrorEmailPage());
             }
         }
     }
@@ -115,5 +54,112 @@ public class Servlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         req.getRequestDispatcher("index.html").forward(req, resp);
+    }
+
+    private boolean checkUser(String username) {
+        if (users.containsKey(username)) {
+            return true;
+        }
+        return false;
+    }
+
+    private void createNewUser(String username, String firstName, String lastName, String email, String password) {
+        User currentUser = new User(username, firstName, lastName, email, password);
+        users.put(username, currentUser);
+    }
+
+    private boolean checkPassword(String password, String repeatPassword) {
+        if (password.equals(repeatPassword)) {
+            return true;
+        }
+        return false;
+    }
+
+    private boolean checkEmail(String email) {
+        Pattern emailPattern = Pattern.compile("^([a-z0-9_-]+\\.)*[a-z0-9_-]+@[a-z0-9_-]+(\\.[a-z0-9_-]+)*\\.[a-z]{2,6}$");
+        Matcher matcher = emailPattern.matcher(email);
+        if (matcher.find()) {
+            return true;
+        }
+        return false;
+    }
+
+    private String getSuccessfulEntrancePage(String username) {
+        return "<!DOCTYPE html>\n" +
+                "<html lang=\"en\">\n" +
+                "<head>\n" +
+                "\t<meta charset=\"UTF-8\">\n" +
+                "\t<title>Hi " + username + "</title>\n" +
+                "</head>\n" +
+                "<body>\n" +
+                "\t<script>alert(\"We missed you\")</script>\n" +
+                "<h3>The site is at your service, " + username + "</h3>" +
+                "</body>";
+    }
+
+    private String getSuccessfulRegistrationPage(String username) {
+        return "<!DOCTYPE html>\n" +
+                "<html lang=\"en\">\n" +
+                "<head>\n" +
+                "\t<meta charset=\"UTF-8\">\n" +
+                "\t<title>Welcome " + username + "</title>\n" +
+                "</head>\n" +
+                "<body>\n" +
+                "\t<script>alert(\"We are glad that you have chosen our site\")</script>\n" +
+                "<h3>The site is at your service, " + username + "</h3>" +
+                "</body>\n" +
+                "</html>";
+    }
+
+    private String getDontRegistrationPage() {
+        return "<!DOCTYPE html>\n" +
+                "<html lang=\"en\">\n" +
+                "<head>\n" +
+                "\t<meta charset=\"UTF-8\">\n" +
+                "\t<title>This user is not registered</title>\n" +
+                "</head>\n" +
+                "<body>\n" +
+                "\t<script>alert(\"This user is not registered. If you want to use the site, please register\")</script>\n" +
+                "</body>\n" +
+                "</html>";
+    }
+
+    private String getErrorEntrancePage() {
+        return "<!DOCTYPE html>\n" +
+                "<html lang=\"en\">\n" +
+                "<head>\n" +
+                "\t<meta charset=\"UTF-8\">\n" +
+                "\t<title>Wrong email or password</title>\n" +
+                "</head>\n" +
+                "<body>\n" +
+                "\t<script>alert(\"Wrong password\")</script>\n" +
+                "</body>\n" +
+                "</html>";
+    }
+
+    private String getErrorEmailPage() {
+        return "<!DOCTYPE html>\n" +
+                "<html lang=\"en\">\n" +
+                "<head>\n" +
+                "\t<meta charset=\"UTF-8\">\n" +
+                "\t<title>Wrong email</title>\n" +
+                "</head>\n" +
+                "<body>\n" +
+                "\t<script>alert(\"You entered wrong email\")</script>\n" +
+                "</body>\n" +
+                "</html>";
+    }
+
+    private String getErrorPasswordPage() {
+        return "<!DOCTYPE html>\n" +
+                "<html lang=\"en\">\n" +
+                "<head>\n" +
+                "\t<meta charset=\"UTF-8\">\n" +
+                "\t<title>Wrong password</title>\n" +
+                "</head>\n" +
+                "<body>\n" +
+                "\t<script>alert(\"Wrong Password\")</script>\n" +
+                "</body>\n" +
+                "</html>";
     }
 }

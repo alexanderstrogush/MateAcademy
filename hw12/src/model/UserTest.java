@@ -6,7 +6,7 @@ import org.junit.Test;
 
 public class UserTest {
 
-    User testUser;
+    private User testUser;
 
     @Before
     public void init() {

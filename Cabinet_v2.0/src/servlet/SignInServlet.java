@@ -42,9 +42,7 @@ public class SignInServlet extends HttpServlet {
             } else {
                 req.getRequestDispatcher("ErrorPage/UnregisteredUserPage.jsp").forward(req, resp);
             }
-        } catch (ServletException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
+        } catch (ServletException | IOException e) {
             e.printStackTrace();
         }
     }

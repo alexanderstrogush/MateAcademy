@@ -45,9 +45,7 @@ public class SignUpServlet extends HttpServlet {
             } else {
                 req.getRequestDispatcher("ErrorPage/ErrorEmailPage.jsp").forward(req, resp);
             }
-        } catch (ServletException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
+        } catch (ServletException | IOException e) {
             e.printStackTrace();
         }
     }

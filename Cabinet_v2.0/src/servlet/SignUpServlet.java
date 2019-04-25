@@ -33,34 +33,22 @@ public class SignUpServlet extends HttpServlet {
         String email = req.getParameter("email");
         String repeatPass = req.getParameter("repeatPassword");
 
-        if (checkEmail(email)) {
-            if (checkPassword(password, repeatPass)) {
-                UserDao userDao = new UserDao();
-                userDao.addUser(new User(username, firstName, lastName, email, password));
-                try {
-                    req.getRequestDispatcher("StartPage.jsp").forward(req, resp);
-                } catch (ServletException e) {
-                    e.printStackTrace();
-                } catch (IOException e) {
-                    e.printStackTrace();
+        try {
+            if (checkEmail(email)) {
+                if (checkPassword(password, repeatPass)) {
+                    UserDao userDao = new UserDao();
+                    userDao.addUser(new User(username, firstName, lastName, email, password));
+                    req.getRequestDispatcher("ErrorPage/ErrorPasswordPage.jsp").forward(req, resp);
+                } else {
+                    req.getRequestDispatcher("ErrorPage/ErrorPasswordPage.jsp").forward(req, resp);
                 }
             } else {
-                try {
-                    req.getRequestDispatcher("ErrorPage/ErrorPasswordPage.jsp").forward(req, resp);
-                } catch (ServletException e) {
-                    e.printStackTrace();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }
-        } else {
-            try {
                 req.getRequestDispatcher("ErrorPage/ErrorEmailPage.jsp").forward(req, resp);
-            } catch (ServletException e) {
-                e.printStackTrace();
-            } catch (IOException e) {
-                e.printStackTrace();
             }
+        } catch (ServletException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
         }
     }
 

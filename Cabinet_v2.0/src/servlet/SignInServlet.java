@@ -3,14 +3,12 @@ package servlet;
 import dao.UserDao;
 import model.User;
 
-import javax.jws.soap.SOAPBinding;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.io.OptionalDataException;
 import java.util.Optional;
 
 @WebServlet("/SignIn")
@@ -32,36 +30,22 @@ public class SignInServlet extends HttpServlet {
         String username = req.getParameter("username");
         String password = req.getParameter("password");
 
+        try {
             Optional<User> optionalUser = userDao.getUser(username);
             if (optionalUser.isPresent()) {
                 User tempUser = optionalUser.get();
                 if (tempUser.getPassword().equals(password)) {
-                    try {
-                        req.getRequestDispatcher("StartPage.jsp").forward(req, resp);
-                    } catch (ServletException e) {
-                        e.printStackTrace();
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
+                    req.getRequestDispatcher("StartPage.jsp").forward(req, resp);
                 } else {
-                    try {
-                        req.getRequestDispatcher("ErrorPage/ErrorEntrancePage.jsp").forward(req, resp);
-                    } catch (ServletException e) {
-                        e.printStackTrace();
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
+                    req.getRequestDispatcher("ErrorPage/ErrorEntrancePage.jsp").forward(req, resp);
                 }
             } else {
-                try {
-                    req.getRequestDispatcher("ErrorPage/UnregisteredUserPage.jsp").forward(req, resp);
-                } catch (ServletException e) {
-                    e.printStackTrace();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
+                req.getRequestDispatcher("ErrorPage/UnregisteredUserPage.jsp").forward(req, resp);
             }
-
+        } catch (ServletException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
-
 }

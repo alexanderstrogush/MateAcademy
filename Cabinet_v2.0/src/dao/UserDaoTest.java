@@ -34,5 +34,4 @@ public class UserDaoTest {
         userDao.deleteUser(actualUser.getUser_id());
         Assert.assertEquals(Optional.empty(), userDao.getUser("AlexStrog"));
     }
-
 }

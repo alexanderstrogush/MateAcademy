@@ -35,6 +35,7 @@ public class SignInServlet extends HttpServlet {
             if (optionalUser.isPresent()) {
                 User tempUser = optionalUser.get();
                 if (tempUser.getPassword().equals(password)) {
+                    req.setAttribute("users", userDao.getAllUsers());
                     req.getRequestDispatcher("StartPage.jsp").forward(req, resp);
                 } else {
                     req.getRequestDispatcher("ErrorPage/ErrorEntrancePage.jsp").forward(req, resp);

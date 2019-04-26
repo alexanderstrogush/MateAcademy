@@ -9,6 +9,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.Optional;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -26,6 +27,8 @@ public class SignUpServlet extends HttpServlet {
     }
 
     private static void signUp(HttpServletRequest req, HttpServletResponse resp) {
+        UserDao userDao = new UserDao();
+
         String username = req.getParameter("username");
         String password = req.getParameter("password");
         String firstName = req.getParameter("firstName");
@@ -34,16 +37,20 @@ public class SignUpServlet extends HttpServlet {
         String repeatPass = req.getParameter("repeatPassword");
 
         try {
-            if (checkEmail(email)) {
-                if (checkPassword(password, repeatPass)) {
-                    UserDao userDao = new UserDao();
-                    userDao.addUser(new User(username, firstName, lastName, email, password));
-                    req.getRequestDispatcher("ErrorPage/ErrorPasswordPage.jsp").forward(req, resp);
+            if (userDao.getUser(username).equals(Optional.empty())) {
+                if (checkEmail(email)) {
+                    if (checkPassword(password, repeatPass)) {
+                        userDao.addUser(new User(username, firstName, lastName, email, password));
+                        req.setAttribute("users", userDao.getAllUsers());
+                        req.getRequestDispatcher("StartPage.jsp").forward(req, resp);
+                    } else {
+                        req.getRequestDispatcher("ErrorPage/ErrorPasswordPage.jsp").forward(req, resp);
+                    }
                 } else {
-                    req.getRequestDispatcher("ErrorPage/ErrorPasswordPage.jsp").forward(req, resp);
+                    req.getRequestDispatcher("ErrorPage/ErrorEmailPage.jsp").forward(req, resp);
                 }
             } else {
-                req.getRequestDispatcher("ErrorPage/ErrorEmailPage.jsp").forward(req, resp);
+                req.getRequestDispatcher("ErrorPage/UserIsRegistred.jsp").forward(req, resp);
             }
         } catch (ServletException | IOException e) {
             e.printStackTrace();

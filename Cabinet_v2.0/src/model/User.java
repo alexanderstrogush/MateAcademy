@@ -10,22 +10,25 @@ public class User {
     private String lastName;
     private String email;
     private String password;
+    private ROLE role;
 
-    public User(String username, String firstName, String lastName, String email, String password) {
+    public User(String username, String firstName, String lastName, String email, String password, String role) {
         this.username = username;
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
         this.password = password;
+        this.role = ROLE.valueOf(role);
     }
 
-    public User(int user_id, String username, String firstName, String lastName, String email, String password) {
+    public User(int user_id, String username, String firstName, String lastName, String email, String password, String role) {
         this.user_id = user_id;
         this.username = username;
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
         this.password = password;
+        this.role = ROLE.valueOf(role);
     }
 
     public int getUser_id() {
@@ -72,21 +75,34 @@ public class User {
         this.password = password;
     }
 
+    public int getRoleNumber() {
+        return role.ordinal();
+    }
+
+    public ROLE getRole() {
+        return role;
+    }
+
+    public void setRole(String role) {
+        this.role = ROLE.valueOf(role);
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         User user = (User) o;
-        return Objects.equals(username, user.username) &&
-                Objects.equals(firstName, user.firstName) &&
-                Objects.equals(lastName, user.lastName) &&
-                Objects.equals(email, user.email) &&
-                Objects.equals(password, user.password);
+        return username.equals(user.username) &&
+                firstName.equals(user.firstName) &&
+                lastName.equals(user.lastName) &&
+                email.equals(user.email) &&
+                password.equals(user.password) &&
+                role.equals(user.role);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(user_id, username, firstName, lastName, email, password);
+        return Objects.hash(user_id, username, firstName, lastName, email, password, role);
     }
 
     @Override
@@ -97,5 +113,10 @@ public class User {
                 lastName + " " +
                 email + " " +
                 password + "\n";
+    }
+
+    public enum ROLE {
+        ADMIN,
+        USER
     }
 }

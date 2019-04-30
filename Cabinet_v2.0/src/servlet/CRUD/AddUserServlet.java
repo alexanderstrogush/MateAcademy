@@ -1,4 +1,4 @@
-package servlet;
+package servlet.CRUD;
 
 import dao.UserDao;
 import model.User;
@@ -13,37 +13,31 @@ import java.util.Optional;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+@WebServlet(value = "/addUser")
+public class AddUserServlet extends HttpServlet {
 
-@WebServlet("/SignUp")
-public class SignUpServlet extends HttpServlet {
-    @Override
-    protected void doPost(HttpServletRequest req, HttpServletResponse resp) {
-        signUp(req, resp);
-    }
+    private static final UserDao USER_DAO = new UserDao();
 
     @Override
-    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        super.doGet(req, resp);
+    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        add(req, resp);
     }
 
-    private static void signUp(HttpServletRequest req, HttpServletResponse resp) {
-        req.getSession().setAttribute("admin", null);
-        UserDao userDao = new UserDao();
-
+    private static void add(HttpServletRequest req, HttpServletResponse resp) {
         String username = req.getParameter("username");
         String password = req.getParameter("password");
         String firstName = req.getParameter("firstName");
         String lastName = req.getParameter("lastName");
         String email = req.getParameter("email");
         String repeatPass = req.getParameter("repeatPassword");
+        String role = req.getParameter("role");
 
         try {
-            if (userDao.getUserByUsername(username).equals(Optional.empty())) {
+            if (USER_DAO.getUserByUsername(username).equals(Optional.empty())) {
                 if (checkEmail(email)) {
                     if (checkPassword(password, repeatPass)) {
-                        userDao.addUser(new User(username, firstName, lastName, email, password, "USER"));
-                        req.setAttribute("username", username);
-                        req.getRequestDispatcher("UserStartPage.jsp").forward(req, resp);
+                        USER_DAO.addUser(new User(username, firstName, lastName, email, password, role));
+                        req.getRequestDispatcher("/admin").forward(req, resp);
                     } else {
                         req.getRequestDispatcher("ErrorPage/ErrorPasswordPage.jsp").forward(req, resp);
                     }

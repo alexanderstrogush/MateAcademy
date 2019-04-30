@@ -32,39 +32,31 @@ public class AddUserServlet extends HttpServlet {
         String repeatPass = req.getParameter("repeatPassword");
         String role = req.getParameter("role");
 
+        User user = new User(username, firstName, lastName, email, password, role);
         try {
             if (USER_DAO.getUserByUsername(username).equals(Optional.empty())) {
-                if (checkEmail(email)) {
-                    if (checkPassword(password, repeatPass)) {
-                        USER_DAO.addUser(new User(username, firstName, lastName, email, password, role));
-                        req.getRequestDispatcher("/admin").forward(req, resp);
-                    } else {
-                        req.getRequestDispatcher("ErrorPage/ErrorPasswordPage.jsp").forward(req, resp);
-                    }
-                } else {
-                    req.getRequestDispatcher("ErrorPage/ErrorEmailPage.jsp").forward(req, resp);
-                }
-            } else {
-                req.getRequestDispatcher("ErrorPage/UserIsRegistred.jsp").forward(req, resp);
+                checkEmail(email, password, repeatPass, user, req, resp);
             }
         } catch (ServletException | IOException e) {
             e.printStackTrace();
         }
     }
 
-    private static boolean checkPassword(String password, String repeatPassword) {
+
+    private static void checkPassword(String password, String repeatPassword, User user, HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         if (password.equals(repeatPassword)) {
-            return true;
+            USER_DAO.addUser(user);
+            req.getRequestDispatcher("/admin").forward(req, resp);
         }
-        return false;
+        req.getRequestDispatcher("ErrorPage/ErrorPasswordPage.jsp").forward(req, resp);
     }
 
-    private static boolean checkEmail(String email) {
+    private static void checkEmail(String email, String password, String repeatPassword, User user, HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         Pattern emailPattern = Pattern.compile("^([a-z0-9_-]+\\.)*[a-z0-9_-]+@[a-z0-9_-]+(\\.[a-z0-9_-]+)*\\.[a-z]{2,6}$");
         Matcher matcher = emailPattern.matcher(email);
         if (matcher.find()) {
-            return true;
+            checkPassword(password, repeatPassword, user, req, resp);
         }
-        return false;
+        req.getRequestDispatcher("ErrorPage/ErrorEmailPage.jsp").forward(req, resp);
     }
 }

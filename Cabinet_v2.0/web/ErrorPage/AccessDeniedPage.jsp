@@ -1,9 +1,9 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
-    <title>Wrong password</title>\
-    </head>
+    <title>Access Denied</title>
+</head>
 <body>
-    <script>alert("Wrong Password")</script>
+    <h1>Access Denied</h1>
 </body>
 </html>

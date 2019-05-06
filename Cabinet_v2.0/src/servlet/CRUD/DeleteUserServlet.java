@@ -17,7 +17,6 @@ public class DeleteUserServlet extends HttpServlet {
         int id = Integer.parseInt(req.getParameter("user_id"));
         userDao.deleteUser(id);
 
-        req.setAttribute("users", userDao.getAllUsers());
-        req.getRequestDispatcher("StartPage.jsp").forward(req, resp);
+        req.getRequestDispatcher("/admin").forward(req, resp);
     }
 }

@@ -27,6 +27,7 @@ public class SignUpServlet extends HttpServlet {
     }
 
     private static void signUp(HttpServletRequest req, HttpServletResponse resp) {
+        req.getSession().setAttribute("admin", null);
         UserDao userDao = new UserDao();
 
         String username = req.getParameter("username");
@@ -37,12 +38,12 @@ public class SignUpServlet extends HttpServlet {
         String repeatPass = req.getParameter("repeatPassword");
 
         try {
-            if (userDao.getUser(username).equals(Optional.empty())) {
+            if (userDao.getUserByUsername(username).equals(Optional.empty())) {
                 if (checkEmail(email)) {
                     if (checkPassword(password, repeatPass)) {
-                        userDao.addUser(new User(username, firstName, lastName, email, password));
-                        req.setAttribute("users", userDao.getAllUsers());
-                        req.getRequestDispatcher("StartPage.jsp").forward(req, resp);
+                        userDao.addUser(new User(username, firstName, lastName, email, password, "USER"));
+                        req.setAttribute("username", username);
+                        req.getRequestDispatcher("UserStartPage.jsp").forward(req, resp);
                     } else {
                         req.getRequestDispatcher("ErrorPage/ErrorPasswordPage.jsp").forward(req, resp);
                     }

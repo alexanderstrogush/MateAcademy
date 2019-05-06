@@ -5,6 +5,7 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
+import java.util.ArrayList;
 import java.util.Optional;
 
 public class UserDaoTest {
@@ -15,23 +16,25 @@ public class UserDaoTest {
     @Before
     public void initialization() {
         userDao = new UserDao();
-        expectedUser = new User("AlexStrog", "Olexandr", "Strog", "duric@gmail.com", "qwerty");
+        expectedUser = new User("AlexStrog", "Olexandr", "Strog", "duric@gmail.com", "qwerty", "ADMIN");
     }
 
     @Test
     public void userDaoTest() {
         userDao.addUser(expectedUser);
-        User actualUser = userDao.getUser("AlexStrog").get();
+        User actualUser = userDao.getUserByUsername("AlexStrog").get();
 
         Assert.assertEquals(expectedUser, actualUser);
 
         expectedUser.setFirstName("Igor");
         userDao.updateUser(actualUser.getUser_id(), expectedUser);
-        actualUser = userDao.getUser("AlexStrog").get();
+        actualUser = userDao.getUserByUsername("AlexStrog").get();
 
         Assert.assertEquals(expectedUser, actualUser);
 
+        ArrayList<User> userList = userDao.getAllUsers();
+
         userDao.deleteUser(actualUser.getUser_id());
-        Assert.assertEquals(Optional.empty(), userDao.getUser("AlexStrog"));
+        Assert.assertEquals(Optional.empty(), userDao.getUserByUsername("AlexStrog"));
     }
 }

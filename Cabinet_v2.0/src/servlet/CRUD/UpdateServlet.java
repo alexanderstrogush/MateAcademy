@@ -12,6 +12,7 @@ import java.io.IOException;
 
 @WebServlet(value = "/updateUser")
 public class UpdateServlet extends HttpServlet {
+
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         UserDao userDao = new UserDao();
@@ -23,10 +24,10 @@ public class UpdateServlet extends HttpServlet {
         String firstName = req.getParameter("firstName");
         String lastName = req.getParameter("lastName");
         String email = req.getParameter("email");
+        String role = req.getParameter("role");
 
-        userDao.updateUser(id, new User(username, firstName, lastName, email, password));
+        userDao.updateUser(id, new User(username, firstName, lastName, email, password, role));
 
-        req.setAttribute("users", userDao.getAllUsers());
-        req.getRequestDispatcher("StartPage.jsp").forward(req, resp);
+        req.getRequestDispatcher("/admin").forward(req, resp);
     }
 }

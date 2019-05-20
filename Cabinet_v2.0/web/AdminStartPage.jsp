@@ -20,8 +20,8 @@
                 <td> <c:out value="${user.getEmail()}"/> </td>
                 <td> <c:out value="${user.getPassword()}"/> </td>
                 <td> <c:out value="${user.getRole().name()}"/> </td>
-                <td> <a href="CRUDPage/UpdateUserInfo.jsp?user_id=${user.getUser_id()}">Edit</a> </td>
-                <td> <a href="/DeleteUser?user_id=${user.getUser_id()}">Delete</a> </td>
+                <td> <a href="CRUDPage/UpdateUserInfo.jsp?userId=${user.getUser_id()}">Edit</a> </td>
+                <td> <a href="/DeleteUser?userId=${user.getUser_id()}">Delete</a> </td>
             </tr>
         </c:forEach>
     </table>

@@ -40,7 +40,7 @@ public class Laptop {
     public String toString() {
         return "Laptop{" +
                 "producer='" + producer + '\'' +
-                ", model='" + model + '\'' +
+                ", com.shop.model='" + model + '\'' +
                 ", processor=" + processor +
                 '}';
     }

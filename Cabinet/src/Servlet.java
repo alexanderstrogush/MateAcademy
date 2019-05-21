@@ -1,4 +1,4 @@
-import model.User;
+import com.shop.model.User;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -142,7 +142,7 @@ public class Servlet extends HttpServlet {
                 "</head>\n" +
                 "<body>\n" +
                 "\t<script>alert(\"We missed you\")</script>\n" +
-                "<h3>The site is at your service, " + username + "</h3>" +
+                "<h3>The site is at your com.shop.service, " + username + "</h3>" +
                 "</body>";
     }
 
@@ -155,7 +155,7 @@ public class Servlet extends HttpServlet {
                 "</head>\n" +
                 "<body>\n" +
                 "\t<script>alert(\"We are glad that you have chosen our site\")</script>\n" +
-                "<h3>The site is at your service, " + username + "</h3>" +
+                "<h3>The site is at your com.shop.service, " + username + "</h3>" +
                 "</body>\n" +
                 "</html>";
     }

@@ -6,7 +6,7 @@
 </head>
 <body>
     <form action="/updateUser" method="post">
-        <input type="hidden" name="user_id" value="${param.user_id}"> <br>
+        <input type="hidden" name="userId" value="${param.userId}"> <br>
         Username <input type="text" name="username" value="${requestScope.username}"> <br>
         First Name <input type="text" name="firstName" value="${requestScope.first_name}"> <br>
         Last Name <input type="text" name="lastName" value="${requestScope.last_name}"> <br>

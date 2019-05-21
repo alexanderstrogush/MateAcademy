@@ -1,8 +1,10 @@
 package com.shop.utils;
 
 import com.shop.model.Cart;
+import com.shop.model.Code;
 import com.shop.model.Good;
 import com.shop.model.Items;
+import com.shop.model.Order;
 import com.shop.model.Role;
 import com.shop.model.User;
 import org.apache.log4j.Logger;
@@ -28,6 +30,8 @@ public class HibernateSessionFactoryUtil {
                 configuration.addAnnotatedClass(Cart.class);
                 configuration.addAnnotatedClass(Good.class);
                 configuration.addAnnotatedClass(Items.class);
+                configuration.addAnnotatedClass(Order.class);
+                configuration.addAnnotatedClass(Code.class);
                 StandardServiceRegistryBuilder builder = new StandardServiceRegistryBuilder().applySettings(configuration.getProperties());
                 sessionFactory = configuration.buildSessionFactory(builder.build());
 

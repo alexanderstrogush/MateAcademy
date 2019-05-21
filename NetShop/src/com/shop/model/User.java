@@ -13,6 +13,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import java.util.HashSet;
@@ -54,7 +55,8 @@ public class User {
     @JoinColumn(name = "cart_id")
     private Cart cart = new Cart();
 
-//    private Set<Order> orders;
+    @OneToMany(mappedBy = "user", fetch = FetchType.EAGER)
+    private Set<Order> orders;
 
     @Column(name = "salt")
     private String salt;
@@ -180,6 +182,14 @@ public class User {
 
     public void setSalt(String salt) {
         this.salt = salt;
+    }
+
+    public Set<Order> getOrders() {
+        return orders;
+    }
+
+    public void setOrders(Set<Order> orders) {
+        this.orders = orders;
     }
 
     @Override

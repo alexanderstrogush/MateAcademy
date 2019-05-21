@@ -4,6 +4,8 @@ import com.shop.dao.GoodDao;
 import com.shop.dao.implamentation.hibernate.GoodDaoHibImpl;
 import com.shop.dao.implamentation.hibernate.UserDaoHibImpl;
 import com.shop.dao.UserDao;
+import com.shop.model.Good;
+import com.shop.model.User;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -15,8 +17,8 @@ import java.io.IOException;
 @WebServlet("/admin")
 public class AdminServlet extends HttpServlet {
 
-    private static final UserDao USER_DAO = new UserDaoHibImpl();
-    private static final GoodDao GOOD_DAO = new GoodDaoHibImpl();
+    private static final UserDao userDao = new UserDaoHibImpl();
+    private static final GoodDao goodDao = new GoodDaoHibImpl();
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -25,10 +27,10 @@ public class AdminServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        req.setAttribute("users", USER_DAO.getAllUsers());
-        req.setAttribute("goods", GOOD_DAO.getAllGoods());
+        req.setAttribute("users", userDao.getAll(User.class));
+        req.setAttribute("goods", goodDao.getAll(Good.class));
 
         req.getRequestDispatcher("/pages/admin/admin.jsp").forward(req, resp);
-//        resp.getWriter().print(gson.toJson(GOOD_DAO.getAllGoods()));
+//        resp.getWriter().print(gson.toJson(goodDao.getAllGoods()));
     }
 }

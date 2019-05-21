@@ -1,5 +1,7 @@
 package com.shop.initializer;
 
+import com.shop.dao.GoodDao;
+import com.shop.dao.UserDao;
 import com.shop.dao.implamentation.hibernate.GoodDaoHibImpl;
 import com.shop.dao.implamentation.hibernate.RoleDaoHibImpl;
 import com.shop.dao.implamentation.hibernate.UserDaoHibImpl;
@@ -20,19 +22,21 @@ public class InitServlet extends HttpServlet {
         Role adminRole = new Role("ADMIN");
         Role userRole = new Role("USER");
 
-        roleDaoHib.addRole(adminRole);
-        roleDaoHib.addRole(userRole);
+        roleDaoHib.add(adminRole);
+        roleDaoHib.add(userRole);
 
-        UserDaoHibImpl userDaoHib = new UserDaoHibImpl();
+        UserDao userDaoHib = new UserDaoHibImpl();
         User admin = new User("AlexStrog", "Alex", "Strog", "gaymar26@gmail.com", "123", adminRole, userRole);
         User user = new User("Vitold", "Vi", "Strog", "strogushalex@gmail.com", "123", userRole);
 
-        userDaoHib.addUser(admin);
-        userDaoHib.addUser(user);
+        userDaoHib.add(admin);
+        userDaoHib.add(user);
 
-        GoodDaoHibImpl goodDaoHib = new GoodDaoHibImpl();
-        Good good = new Good("Xiaomi Redmi Note 7 Pro", "Топ за свои деньги", 252.99);
+        GoodDao goodDaoHib = new GoodDaoHibImpl();
+        Good good1 = new Good("Xiaomi Redmi Note 7 Pro", "Топ за свои деньги", 252.99);
+        Good good2 = new Good("One Plus 7 Pro", "Flagman's killer", 999);
 
-        goodDaoHib.addGood(good);
+        goodDaoHib.add(good1);
+        goodDaoHib.add(good2);
     }
 }

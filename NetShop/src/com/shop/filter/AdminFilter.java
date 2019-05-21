@@ -31,7 +31,7 @@ public class AdminFilter implements Filter {
     public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain) throws IOException, ServletException {
         HttpServletRequest request = (HttpServletRequest) servletRequest;
         User user = (User) request.getSession().getAttribute("user");
-        Role adminRole = ROLE_DAO_HIB.getRoleByName("ADMIN").get();
+        Role adminRole = ROLE_DAO_HIB.getByName("ADMIN").get();
         if (user.getRoles().contains(adminRole)) {
             filterChain.doFilter(request, servletResponse);
         } else {

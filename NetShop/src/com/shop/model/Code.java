@@ -1,12 +1,23 @@
 package com.shop.model;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Table;
 import java.util.Objects;
 
+@Entity
+@Table(name = "codes")
 public class Code {
 
+    @Id
+    @Column(name = "code_id")
     private long codeId;
+
     private long userId;
+
     private long orderId;
+
     private String value;
 
     public Code(long userId, long orderId, String value) {

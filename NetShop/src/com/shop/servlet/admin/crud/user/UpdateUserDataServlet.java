@@ -1,5 +1,6 @@
 package com.shop.servlet.admin.crud.user;
 
+import com.shop.dao.RoleDao;
 import com.shop.dao.UserDao;
 import com.shop.dao.implamentation.hibernate.RoleDaoHibImpl;
 import com.shop.dao.implamentation.hibernate.UserDaoHibImpl;
@@ -13,13 +14,14 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.HashSet;
+import java.util.Optional;
 import java.util.Set;
 
 @WebServlet("/admin/user/update")
 public class UpdateUserDataServlet extends HttpServlet {
 
-    private static final UserDao USER_DAO = new UserDaoHibImpl();
-    private static final RoleDaoHibImpl ROLE_DAO_HIB = new RoleDaoHibImpl();
+    private static final UserDao userDao = new UserDaoHibImpl();
+    private static final RoleDao roleDao = new RoleDaoHibImpl();
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -31,8 +33,8 @@ public class UpdateUserDataServlet extends HttpServlet {
         String isAdmin = req.getParameter("is_admin");
         String isUser = req.getParameter("is_user");
 
-        Role adminRole = ROLE_DAO_HIB.getRoleByName("ADMIN").get();
-        Role userRole = ROLE_DAO_HIB.getRoleByName("USER").get();
+        Role adminRole = roleDao.getByName("ADMIN").get();
+        Role userRole = roleDao.getByName("USER").get();
         Set<Role> roles = new HashSet<>();
 
         if (isAdmin != null && isAdmin.equals("true")) {
@@ -40,11 +42,17 @@ public class UpdateUserDataServlet extends HttpServlet {
         }
         roles.add(userRole);
 
-        User user = new User(username, firstName, lastName, email);
-        user.setUserId(userId);
-        user.setRoles(roles);
+        Optional<User> userOptional = userDao.getById(User.class, userId);
 
-        USER_DAO.updateUser(user);
+        if (userOptional.isPresent()) {
+            User user = userOptional.get();
+            user.setUsername(username);
+            user.setFirstName(firstName);
+            user.setLastName(lastName);
+            user.setEmail(email);
+            user.setRoles(roles);
+            userDao.update(user);
+        }
 
         req.getRequestDispatcher("/admin").forward(req, resp);
     }

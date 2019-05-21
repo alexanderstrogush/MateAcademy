@@ -1,5 +1,6 @@
 package com.shop.servlet;
 
+import com.shop.dao.RoleDao;
 import com.shop.dao.UserDao;
 import com.shop.dao.implamentation.hibernate.RoleDaoHibImpl;
 import com.shop.dao.implamentation.hibernate.UserDaoHibImpl;
@@ -20,8 +21,8 @@ import java.util.Optional;
 public class SignInServlet extends HttpServlet {
 
     private static final Logger logger = Logger.getLogger(SignInServlet.class);
-    private static final UserDao USER_DAO = new UserDaoHibImpl();
-    private static final RoleDaoHibImpl ROLE_DAO_HIB = new RoleDaoHibImpl();
+    private static final UserDao userDao = new UserDaoHibImpl();
+    private static final RoleDao roleDao = new RoleDaoHibImpl();
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -32,7 +33,7 @@ public class SignInServlet extends HttpServlet {
     }
 
     private String checkUser(String username, HttpServletRequest req) {
-        Optional<User> userFromDB = USER_DAO.getUserByUsername(username);
+        Optional<User> userFromDB = userDao.getUserByUsername(username);
         if (userFromDB.isPresent()) {
             return checkUserPassword(userFromDB.get(), req);
         }
@@ -53,7 +54,7 @@ public class SignInServlet extends HttpServlet {
 
     private String checkUserRole(User user, HttpServletRequest req) {
         req.getSession().setAttribute("user", user);
-        Role adminRole = ROLE_DAO_HIB.getRoleByName("ADMIN").get();
+        Role adminRole = roleDao.getByName("ADMIN").get();
         if (user.getRoles().contains(adminRole)) {
             logger.debug("Admin with email " + user.getEmail() + " signed in");
             return "/admin";

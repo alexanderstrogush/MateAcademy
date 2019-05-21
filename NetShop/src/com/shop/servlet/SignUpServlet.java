@@ -1,5 +1,6 @@
 package com.shop.servlet;
 
+import com.shop.dao.RoleDao;
 import com.shop.dao.UserDao;
 import com.shop.dao.implamentation.hibernate.RoleDaoHibImpl;
 import com.shop.dao.implamentation.hibernate.UserDaoHibImpl;
@@ -19,8 +20,8 @@ import java.util.regex.Pattern;
 @WebServlet("/registration")
 public class SignUpServlet extends HttpServlet {
 
-    private static final UserDao USER_DAO = new UserDaoHibImpl();
-    private static final RoleDaoHibImpl ROLE_DAO_HIB = new RoleDaoHibImpl();
+    private static final UserDao userDao = new UserDaoHibImpl();
+    private static final RoleDao roleDao = new RoleDaoHibImpl();
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -31,7 +32,7 @@ public class SignUpServlet extends HttpServlet {
     }
 
     private String checkUser(String username, HttpServletRequest req) {
-        if (USER_DAO.getUserByUsername(username).equals(Optional.empty())) {
+        if (userDao.getUserByUsername(username).equals(Optional.empty())) {
             return checkEmail(req);
         }
         return "/pages/errors/user-is-already-registred.jsp";
@@ -57,9 +58,9 @@ public class SignUpServlet extends HttpServlet {
             String lastName = req.getParameter("lastName");
             String email = req.getParameter("email");
 
-            Role userRole = ROLE_DAO_HIB.getRoleByName("USER").get();
+            Role userRole = roleDao.getByName("USER").get();
             User user = new User(username, firstName, lastName, email, password, userRole);
-            long id = USER_DAO.addUser(user);
+            long id = userDao.add(user);
             user.setUserId(id);
             req.getSession().setAttribute("user", user);
 

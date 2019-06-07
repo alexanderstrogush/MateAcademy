@@ -71,6 +71,16 @@ public class Cart {
         this.price = price;
     }
 
+    public void addItem(Items items) {
+        this.items.add(items);
+        price += items.getGood().getPrice() * items.getAmount();
+    }
+
+    public void clean() {
+        this.items = new ArrayList<>();
+        price = 0.0;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

@@ -10,11 +10,12 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.Optional;
 
 @WebServlet("/admin/good/update")
 public class UpdateGoodDataServlet extends HttpServlet {
 
-    private static final GoodDao GOOD_DAO = new GoodDaoHibImpl();
+    private static final GoodDao goodDao = new GoodDaoHibImpl();
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -23,9 +24,14 @@ public class UpdateGoodDataServlet extends HttpServlet {
         String description = req.getParameter("description");
         double price = Double.parseDouble(req.getParameter("price"));
 
-        Good good = new Good(goodId, name, description, price);
-
-        GOOD_DAO.updateGoodById(good);
+        Optional<Good> goodOptional = goodDao.getById(Good.class, goodId);
+        if (goodOptional.isPresent()) {
+            Good good = goodOptional.get();
+            good.setName(name);
+            good.setDescription(description);
+            good.setPrice(price);
+            goodDao.update(good);
+        }
 
         req.getRequestDispatcher("/admin").forward(req, resp);
     }

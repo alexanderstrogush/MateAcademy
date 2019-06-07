@@ -19,7 +19,7 @@ import java.util.Properties;
 public class MailService {
 
     private static final Logger logger = Logger.getLogger(MailService.class);
-    private static final UserDao USER_DAO = new UserDaoHibImpl();
+    private static final UserDao userDao = new UserDaoHibImpl();
 
     public static void sendMail(Code code) {
         final String username = "matesttest22@gmail.com";
@@ -40,7 +40,7 @@ public class MailService {
 
         try {
 
-            User user = USER_DAO.getUserById((code.getUserId())).get();
+            User user = userDao.getById(User.class, code.getUserId()).get();
 
             Message message = new MimeMessage(session);
             message.setFrom(new InternetAddress("matesttest22@gmail.com"));

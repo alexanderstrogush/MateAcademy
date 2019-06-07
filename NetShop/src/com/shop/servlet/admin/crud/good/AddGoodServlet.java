@@ -14,7 +14,7 @@ import java.io.IOException;
 @WebServlet("/admin/good/add")
 public class AddGoodServlet extends HttpServlet {
 
-    private static final GoodDao GOOD_DAO = new GoodDaoHibImpl();
+    private static final GoodDao goodDao = new GoodDaoHibImpl();
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -23,7 +23,7 @@ public class AddGoodServlet extends HttpServlet {
         Long price = Long.valueOf(req.getParameter("price"));
 
         Good good = new Good(name, description, price);
-        GOOD_DAO.addGood(good);
+        goodDao.add(good);
 
         req.getRequestDispatcher("/admin").forward(req, resp);
     }

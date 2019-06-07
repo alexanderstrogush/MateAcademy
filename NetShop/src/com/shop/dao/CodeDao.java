@@ -4,11 +4,7 @@ import com.shop.model.Code;
 
 import java.util.Optional;
 
-public interface CodeDao {
-
-    public long addCode(Code code);
+public interface CodeDao extends GenericDao<Code> {
 
     public Optional<Code> getCodeByValue(long userId, String values);
-
-    public int deleteCodeById(long codeId);
 }

@@ -27,7 +27,7 @@ public class UpdateUserFilter implements Filter {
     public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain) throws IOException, ServletException {
         HttpServletRequest request = (HttpServletRequest) servletRequest;
         long userId = Long.parseLong(request.getParameter("user_id"));
-        User user = USER_DAO.getUserById(userId).get();
+        User user = USER_DAO.getById(User.class, userId).get();
         request.setAttribute("user", user);
         filterChain.doFilter(request, servletResponse);
     }

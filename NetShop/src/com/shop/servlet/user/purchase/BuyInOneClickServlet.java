@@ -8,6 +8,7 @@ import com.shop.dao.OrderDao;
 import com.shop.dao.UserDao;
 import com.shop.model.Cart;
 import com.shop.model.Good;
+import com.shop.model.Items;
 import com.shop.model.Order;
 import com.shop.model.User;
 import org.apache.log4j.Logger;
@@ -23,9 +24,9 @@ import java.io.IOException;
 public class BuyInOneClickServlet extends HttpServlet {
 
     private static final Logger logger = Logger.getLogger(BuyInOneClickServlet.class);
-    private static final OrderDao ORDER_DAO = new OrderDaoHibImpl();
-    private static final UserDao USER_DAO = new UserDaoHibImpl();
-    private static final GoodDao GOOD_DAO = new GoodDaoHibImpl();
+    private static final OrderDao orderDao = new OrderDaoHibImpl();
+    private static final UserDao userDao = new UserDaoHibImpl();
+    private static final GoodDao goodDao = new GoodDaoHibImpl();
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -33,15 +34,16 @@ public class BuyInOneClickServlet extends HttpServlet {
         long goodId = Long.parseLong(req.getParameter("good_id"));
         int amount = Integer.parseInt(req.getParameter("amount"));
 
-        Cart cart = new Cart();
-        Good good = GOOD_DAO.getGoodById(goodId).get();
-//        cart.addGood(good, amount);
+        Good good = goodDao.getById(Good.class, goodId).get();
+        Items items = new Items(user.getCart(), good, amount);
+        user.getCart().addItem(items);
 
-        Order order = new Order(user, cart);
-        long id = ORDER_DAO.addOrder(order);
-        order.setOrderId(id);
-//        user.getOrders().add(order);
-        logger.debug("New order: id " + id + " created");
+        Order order = new Order(user.getCart());
+        long orderId = orderDao.add(order);
+        order.setOrderId(orderId);
+        user.getOrders().add(order);
+        logger.debug("New order: id " + orderId + " created");
+
         req.getRequestDispatcher("/orders").forward(req, resp);
     }
 }

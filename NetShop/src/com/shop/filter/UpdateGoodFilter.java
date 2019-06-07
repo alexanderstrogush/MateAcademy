@@ -17,7 +17,7 @@ import java.io.IOException;
 @WebFilter("/pages/admin/crud/good/update-good-data.jsp")
 public class UpdateGoodFilter implements Filter {
 
-    private static final GoodDao GOOD_DAO = new GoodDaoHibImpl();
+    private static final GoodDao goodDao = new GoodDaoHibImpl();
 
     @Override
     public void init(FilterConfig filterConfig) throws ServletException {
@@ -27,7 +27,7 @@ public class UpdateGoodFilter implements Filter {
     public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain) throws IOException, ServletException {
         HttpServletRequest request = (HttpServletRequest) servletRequest;
         long goodId = Long.parseLong(request.getParameter("good_id"));
-        Good good = GOOD_DAO.getGoodById(goodId).get();
+        Good good = goodDao.getById(Good.class, goodId).get();
         request.setAttribute("good", good);
         filterChain.doFilter(request, servletResponse);
     }

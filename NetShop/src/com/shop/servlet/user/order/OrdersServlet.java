@@ -14,12 +14,12 @@ import java.io.IOException;
 @WebServlet("/user/orders")
 public class OrdersServlet extends HttpServlet {
 
-    private static final OrderDao ORDER_DAO = new OrderDaoHibImpl();
+    private static final OrderDao orderDao = new OrderDaoHibImpl();
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         User user = (User) req.getSession().getAttribute("user");
-//        user.setOrders(ORDER_DAO.getAllOrdersForUser(user.getUserId()));
+//        user.setOrders(orderDao.getAllOrdersForUser(user.getUserId()));
 //        req.setAttribute("orders", user.getOrders());
 
         req.getRequestDispatcher("/pages/user/orders/orders.jsp").include(req, resp);

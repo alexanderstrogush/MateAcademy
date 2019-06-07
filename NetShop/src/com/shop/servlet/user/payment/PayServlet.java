@@ -17,7 +17,7 @@ import java.io.IOException;
 @WebServlet("/orders/pay")
 public class PayServlet extends HttpServlet {
 
-    private static final CodeDao CODE_DAO = new CodeDaoHibImpl();
+    private static final CodeDao codeDao = new CodeDaoHibImpl();
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -25,7 +25,7 @@ public class PayServlet extends HttpServlet {
         Long orderId = Long.valueOf(req.getParameter("order_id"));
         String value = RandomHelper.getRandomString();
         Code code = new Code(user.getUserId(), orderId, value);
-        CODE_DAO.addCode(code);
+        codeDao.add(code);
         MailService.sendMail(code);
         req.getRequestDispatcher("/pages/user/payment/purchase-confirmation.jsp").forward(req, resp);
     }
